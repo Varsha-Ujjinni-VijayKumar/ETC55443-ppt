@@ -1,0 +1,536 @@
+---
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    css: [styling.css, default]
+    layout: true
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+	echo = FALSE,
+	fig.align = "center",
+	message = FALSE,
+	warning = FALSE
+)
+options(htmltools.dir.version = FALSE)
+library(xaringanExtra)
+library(fontawesome)
+library(tidyverse)
+library(DT)
+library(readr)
+xaringanExtra::use_panelset()
+```
+
+class: middle
+background-color: #E0FFFF
+
+<div style="width: 100%; height: 150px; background: #B0C4DE; padding: 1em 1em 1em 1em; text-align:center; font-weight: bold;">
+<p style="font-size:32px;">ETC5543 Business Analytics Creative Activity</p>
+<p>Summer Internship (Dec 2020 - Feb 2021)</p>
+</div>
+
+<h3>Varsha Ujjinni Vijay Kumar</h3>
+
+.pull-left[[Master of Business Analytics - Monash University  
+BE. in Information Technology and Technology (India)] ]
+
+.pull-right[
+<img src="images/varshaujjini.png" width="150px">]
+
+.left[`r fa(name = "linkedin")` [Varsha](https://www.linkedin.com/in/varsha-ujjinni-vijay-kumar-1026121a4/) <br>`r fa(name = "envelope")` [vujj0001@student.monash.edu](mailto:vujj0001@student.monash.edu)]
+---
+class: inverse
+## About the internship program `r emo::ji('engineer')`
+
+Visiting Student(remote) at [**KAUST**](https://www.kaust.edu.sa/en) 
+
+The Visiting Student Program at KAUST - aims at offering research experience for international students over short courses of time.
+
+.pull-left[
+
+Supervisor: Dr.Paula Moraga
+
+.small-font[Assistant Professor at KAUST  
+[www.paulamoraga.com](https://www.paulamoraga.com/)
+]]
+
+.pull-right[
+<img src="images/paulamoraga.png" width="150px">
+]
+
+
+---
+class: inverse
+## Background `r emo::ji('library')`
+
+--
+Open and reliable data, analytical tools and collaborative research are crucial for solving global challenges and achieving sustainable development
+
+--
+
+Spatial and spatio-temporal data are used in a wide range of fields including health and many other social and environmental disciplines to improve the evaluation and monitoring of goals both within and across countries.
+
+---
+class: inverse
+## Goals for the internship `r emo::ji('page')`
+
+- To Create a collection of data sources and tutorials using R, to assist data-driven map visualisation in Africa for research and analysis. To help researchers find the root cause for many of the epidemic diseases spread across countries. 
+
+- Use R packages to download data.
+
+- Provide examples on how to visualise them using multiple methods.
+---
+class: inverse
+## Rspatialdata `r emo::ji('space')`  
+
+Rspatialdata is a collection of data sources and tutorials on visualising different spatial features using R.
+
+`r emo::ji("paperclip")`[https://rspatialdata.github.io](https://rspatialdata.github.io/index.html)
+
+```{r rspatialdata, out.height="300px", eval=T}
+knitr::include_graphics("images/1.PNG", dpi = NA)
+```
+
+---
+class: inverse
+## Tools used `r emo::ji('hammer_and_wrench')`
+
+- Simple R Markdown website
+
+- GitHub Pages
+
+- R-packages
+
+- HTML and CSS 
+
+- GitHub
+
+---
+# Tutorials `r emo::ji('paper')`
+
+```{r tutorials,echo=FALSE}
+table <- read.csv(here::here("table.csv"))
+table %>% DT::datatable(options = list(pageLength = 12, dom = 't'),width = '120%', height = '70%')
+```
+
+---
+# Tutorials `r emo::ji('paper')`
+
+- .grey[Administrative boundaries]
+- .grey[Open Street Map data]  
+- .grey[Population]  
+-  <i><b><u>Elevation</i></b></u>  
+- .grey[Temperature]  
+- <i><b><u>Rainfall</i></b></u>  
+- <i><b><u>Humidity</i></b></u> 
+- .grey[Vegetation] 
+- .grey[Land Cover]  
+- <i><b><u>DHS</i></b></u>  
+- <i><b><u>Malaria</i></b></u> 
+- .grey[Air pollution]
+
+---
+class:inverse
+## Elevation `r emo::ji('mountain')`
+
+Task at hand : To visualise a country's elevation data.
+
+Data :
+
+- [USGS Elevation Point Query Service](https://ned.usgs.gov/epqs/)
+
+- [Amazon Web Services Terrain Tiles](https://registry.opendata.aws/terrain-tiles/)
+
+R-package
+
+- [elevatr](https://cran.r-project.org/web/packages/elevatr/index.html)
+
+---
+class:inverse
+# Elevation data of Switzerland administrative areas
+
+.panelset[
+.panel[.panel-name[Map]
+
+```{r elev, out.height="400px", eval=T}
+knitr::include_graphics("images/elevation.PNG", dpi = NA) 
+```
+
+]
+.panel[.panel-name[Code]
+
+```{r elevation, eval = F, echo = T}
+library(rnaturalearth)
+library(rnaturalearthhires)
+sf_swiss <- ne_states(country = 'switzerland', returnclass='sf')
+
+elevation_1 <- elevatr::get_elev_raster(locations = sf_swiss, z = 7,clip = "locations")
+cropped_elev <- crop(elevation_1,sf_swiss)
+elevate <- as.data.frame(cropped_elev,xy = TRUE)
+
+colnames(elevate)[3] = "elevation_value"
+elevate <- elevate[complete.cases(elevate),]
+
+ggplot() +
+  #geom_sf(data = st_as_sfc(st_bbox(elevation_1)),color = "grey", fill = "grey",alpha = 0.05) +
+  geom_raster(data = elevate , aes(x = x, y = y,fill = elevation_value )) +
+  geom_sf(data = sf_swiss, color = "white", fill = NA) +
+  coord_sf(xlim = c(5.3,10.8), ylim = c(45.5,47.8))+
+  scale_fill_viridis_c()+
+  ggtitle("Elevation data of Switzerland admininstrative areas")
+```
+
+]
+]
+
+---
+class: inverse
+## Rainfall 
+
+Task at hand : To visualise a country's or the world rainfall data.
+
+Data : [NASA POWER](https://power.larc.nasa.gov/) - NASA Prediction of Worldwide Energy Resource
+
+R-package
+
+[nasapower](https://github.com/ropensci/nasapower)
+
+---
+.panelset[
+.panel[.panel-name[Map]
+
+```{r china-rain, out.height="400px", eval=T}
+knitr::include_graphics("images/china-rain.PNG", dpi = NA) 
+```
+
+]
+.panel[.panel-name[Code]
+
+```{r china-rain-code, eval = F, echo = T}
+#library("rnaturalearth")
+
+# Getting map for China
+CHI <- ne_states(country = "China", returnclass = "sf")
+
+#getting individual administrative boundaries 
+GA <- CHI[CHI$name == "Gansu",]
+XI <- CHI[CHI$name == "Xinjiang",]
+#creating a raster object
+r <- rast(xmin = -180,
+     xmax = 180,
+     ymin = -90,
+     ymax = 90,
+     resolution = 0.5)
+
+#defining the cell structure 
+values(r) <- 1:ncell(r)
+
+#retrieving only the coordinates from the GA & XI tables 
+GA_coords <- crop(r,GA)
+XI_coords <- crop(r,XI)
+
+#getting the coordinated for the first administrative boundary
+GA_coords <- mask(GA_coords,vect(GA))
+
+#converting the coordinated into a dataframe with x and y values to map
+GA_df <- as.data.frame(GA_coords, xy = TRUE, na.rm = TRUE)
+rownames(GA_df) <- c()
+
+#getting the china administrative boundaries shapefile
+gansu_map <- geoboundaries("China","adm1")
+ggplot() + 
+  geom_raster(data = GA_df, aes(x = x, y = y, fill = lyr.1)) +
+  geom_sf(data = gansu_map, inherit.aes = FALSE, fill = NA) + 
+  scale_fill_viridis()+
+  theme_minimal()+
+  labs(title = "Rainfall in Gansu, China", fill = "Rainfall")
+```
+
+]
+.panel[.panel-name[Map]
+
+```{r world-rain, out.height="400px", eval=T}
+knitr::include_graphics("images/world-rain.PNG", dpi = NA) 
+```
+
+]
+.panel[.panel-name[Code]
+
+```{r world-rain-code, eval = F, echo = T}
+library("rnaturalearth")
+
+# Getting world map
+map <- ne_countries(returnclass = "sf")
+
+climate_box <- split(climate_avg, climate_avg$PARAMETER)
+
+climate_box <- lapply(climate_box, function(x){
+  x["PARAMETER"] <- NULL
+  x
+})
+
+climate_box <- lapply(X = climate_box, FUN = as.matrix)
+
+#retrieving precipitation data using the above made climate_box() function
+PRECTOT <- terra::rast(climate_box$PRECTOT[,c(1:2, 15)],
+     crs = "+proj=eqc +lat_ts=0 +lat_0=0 +lon_0=0 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m +no_defs", type = "xyz")
+
+#converting above raster object into a data.frame for mapping 
+PRECTOT_df <- as.data.frame(PRECTOT, xy = TRUE, na.rm = TRUE)
+rownames(PRECTOT_df) <- c()
+
+#plotting the graph
+ggplot() + 
+  geom_raster(data = PRECTOT_df, aes(x = x, y = y, fill = ANN)) +
+  geom_sf(data = map, inherit.aes = FALSE, fill = NA) + 
+  scale_fill_viridis()+
+  labs(title = "Rainfall in inches",
+       fill = "Annual Rainfall",
+       subtitle = "Annual rainfall at various parts of the world")
+```
+]
+]
+
+---
+class: inverse
+## Humidity
+
+Task at hand : To visualise a country's or the world humidity data.
+
+Data : [NASA POWER](https://power.larc.nasa.gov/) - NASA Prediction of Worldwide Energy Resource
+
+R-package
+
+[nasapower](https://github.com/ropensci/nasapower)
+
+---
+.panelset[
+.panel[.panel-name[Map]
+
+```{r china-humid, out.height="400px", eval=T}
+knitr::include_graphics("images/oz-humid.PNG", dpi = NA) 
+```
+
+]
+.panel[.panel-name[Code]
+
+```{r oz-humid-code, eval = F, echo = T}
+library("rnaturalearth")
+AUS <- ne_states(country = "Australia",
+                 returnclass = "sf")
+NT <- AUS[AUS$name == "Northern Territory",]
+WA <- AUS[AUS$name == "Western Australia",]
+#creating raster objects
+rasters <- rast(xmin = -180,
+     xmax = 180,
+     ymin = -90,
+     ymax = 90,
+     resolution = 0.5)
+values(rasters) <- 1:ncell(rasters)
+
+WA_coord <- mask(WA_coord,vect(WA))
+WA_df <- as.data.frame(WA_coord, xy = TRUE, na.rm = TRUE)
+rownames(WA_df) <- c()
+ggplot() + 
+  geom_raster(data = WA_df, aes(x = x, y = y, fill = lyr.1))+ 
+  geom_sf(data = AUS, inherit.aes = FALSE, fill = NA)+
+  scale_fill_viridis()+
+  theme_minimal()+
+  labs(title = "Relative Humidity in Western Australia, Australia", fill = "Humidity")
+```
+
+]
+.panel[.panel-name[Map]
+
+```{r world-humid, out.height="400px", eval=T}
+knitr::include_graphics("images/world-humid.PNG", dpi = NA) 
+```
+
+]
+.panel[.panel-name[Code]
+
+```{r world-humid-code, eval = F, echo = T}
+#getting the shapefiles for the world 
+map <- ne_countries(returnclass = "sf")
+
+climate_box <- split(climate_avg_RH,climate_avg_RH$PARAMETER)
+
+climate_box <- lapply(climate_box, function(x){
+  x["PARAMETER"] <- NULL
+  x
+})
+
+climate_box <- lapply(X = climate_box, FUN= as.matrix)
+
+#retrieving the humidity data using the above made climate_box function
+relative_humid <- rast(climate_box$RH2M[,c(1:2,15)],
+     crs = "+proj=eqc +lat_ts=0 +lat_0=0 +lon_0=0 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m +no_defs", type = "xyz")
+
+#converting above raster object into a dataframe for mapping 
+RH_df <- as.data.frame(relative_humid, xy = TRUE, na.rm = TRUE)
+rownames(RH_df) <- c()
+
+#plotting the graph
+ggplot() + 
+  geom_raster(data = RH_df, aes(x = x, y = y, fill = ANN)) +
+  geom_sf(data = map, inherit.aes = FALSE, fill = NA) + 
+  scale_fill_viridis()+
+  labs(title = "Relative Humidity",
+       fill = "Humidity",
+       subtitle = "Annual Relative Humidity at various parts of the world")
+```
+]
+]
+
+---
+class: inverse
+## Demographic and Health Survey[DHS]
+
+Task at hand : To give users the ability to access and analyse the demographic and health survey data of the country or world.
+
+Data : [DHS API](https://api.dhsprogram.com/#/index.html)
+
+R-package
+
+[rdhs](https://www.rdocumentation.org/packages/rdhs/versions/0.7.2)
+
+---
+class: inverse
+## Getting the data and its analysis
+
+.panelset[
+.panel[.panel-name[Guide]
+
+### Some guidelines to access DHS data
+
+- As users, DHS data can only be downloaded through the DHS website by setting up an account. 
+
+- Note that it could take a while for the approval for accessibility as there is tight knit process to analyse your reason for using the data. 
+
+- If one wishes to just use the `rdhs` package to view it's working, then there are model data sets which are not the actual numbers, that can be used without any approval.
+]
+.panel[.panel-name[Functions]
+
+### Functions:
+
+- `dhs_indicators()` : determines the indicators
+- `dhs_tags()` : search the data set by tag names 
+- `dhs_data()` : retrieving data
+- `dhs_countries()` : retrieves a list of countries that your account has access to
+- `dhs_survey()` : retrieves the surveys according to the arguments
+- `dhs_datasets()` : helps download all the datasets that is approved for your account.
+
+]
+
+.panel[.panel-name[Authentication]
+
+The following code is used to set your DHS website credentials for retrieval of data approved.
+
+```{r client, eval=FALSE,echo=TRUE}
+config <- set_rdhs_config(email = "abc.gmail.com",
+                project = "project-name",
+                config_path = "~/.rdhs.json",
+                global = TRUE,
+                verbose_download = TRUE)
+
+```
+
+]
+
+.panel[.panel-name[Graph]
+
+```{r dhs-facet, out.height="400px", eval=T}
+knitr::include_graphics("images/dhs.PNG", dpi = NA) 
+```
+
+]
+.panel[.panel-name[Code]
+
+```{r facet, eval = F, echo = T}
+#regions we are interested in
+country <- c("Ghana","Ethiopia","Tanzania","Zambia","Rwanda","Mali") 
+
+ggplot(resp[resp$CountryName %in% country,], 
+       aes(x = SurveyYear, 
+           y = Value, 
+           color = CountryName)) + 
+  geom_point()+
+  geom_smooth(method = "lm") +
+  labs(y = "Households with at least one ins ecticide treated net (ITN)", color = "Country")+
+  facet_wrap(~CountryName)
+```
+
+]]
+
+---
+class: inverse
+### Malaria
+
+Task at hand :  To download, visualise and manipulate global malaria data hosted by the Malaria Atlas Project.
+
+Data : [Malaria Atlas Project](https://malariaatlas.org/explorer/#/)
+
+R-package
+
+- [malariaAtlas](https://cran.r-project.org/web/packages/malariaAtlas/index.html)
+
+---
+class:inverse
+# Malaria Data Visualisation
+
+.panelset[
+.panel[.panel-name[Map]
+
+```{r mal, out.height="400px", eval=T}
+knitr::include_graphics("images/malaria.PNG", dpi = NA) 
+```
+
+]
+.panel[.panel-name[Code]
+
+```{r pr-malaria, eval = F, echo = T}
+ZM_PR_data  <- getPR(country = "Zimbabwe", species = "BOTH") 
+autoplot(ZM_PR_data)
+```
+
+]
+
+.panel[.panel-name[Map]
+
+```{r mal-vec, out.height="400px", eval=T}
+knitr::include_graphics("images/vector.PNG", dpi = NA) 
+```
+
+]
+.panel[.panel-name[Code]
+
+```{r vec-malaria, eval = F, echo = T}
+IN_VEC_data <- getVecOcc(country = "India", species = "ALL") 
+autoplot(IN_VEC_data)
+```
+
+]
+
+.panel[.panel-name[Map]
+
+```{r mal-ras, out.height="400px", eval=T}
+knitr::include_graphics("images/raster-mal.PNG", dpi = NA) 
+```
+
+]
+.panel[.panel-name[Code]
+
+```{r raster-mal, eval = F, echo = T}
+ZM_shp <- getShp(country = "Zimbabwe", admin_level = "admin0")
+ZMB_Pf <- getRaster(surface = "Plasmodium falciparum PR2-10", shp = ZM_shp, year = 2010)
+ZMB_Pf <- as.MAPraster(ZMB_Pf)
+ZMB_shp_data <- as.MAPshp(ZM_shp)
+autoplot(ZMB_Pf, shp_df = ZMB_shp_data)  
+```
+]
+]
