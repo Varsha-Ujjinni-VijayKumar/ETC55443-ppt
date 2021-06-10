@@ -26,13 +26,14 @@ library(readr)
 xaringanExtra::use_panelset()
 ```
 
-class: middle
-background-color: #E0FFFF
+class: middle,inverse
+background-image: url("images/first.jpg")
 
-<div style="width: 100%; height: 150px; background: #B0C4DE; padding: 1em 1em 1em 1em; text-align:center; font-weight: bold;">
-<p style="font-size:32px;">ETC5543 Business Analytics Creative Activity</p>
-<p>Summer Internship (Dec 2020 - Feb 2021)</p>
+<div>
+<b><p style="font-size:32px;">ETC5543 Business Analytics Creative Activity</p></b>
+<b><u><p>Summer Internship (Dec 2020 - Feb 2021)</p></u></b>
 </div>
+
 
 <h3>Varsha Ujjinni Vijay Kumar</h3>
 
@@ -42,7 +43,9 @@ BE. in Information Technology and Technology (India)] ]
 .pull-right[
 <img src="images/varshaujjini.png" width="150px">]
 
-.left[`r fa(name = "linkedin")` [Varsha](https://www.linkedin.com/in/varsha-ujjinni-vijay-kumar-1026121a4/) <br>`r fa(name = "envelope")` [vujj0001@student.monash.edu](mailto:vujj0001@student.monash.edu)]
+.right[`r fa(name = "linkedin")` [Varsha](https://www.linkedin.com/in/varsha-ujjinni-vijay-kumar-1026121a4/) <br>`r fa(name = "envelope")` [vujj0001@student.monash.edu](mailto:vujj0001@student.monash.edu)]
+
+.right[Image credit: [geco](https://gecosistema.com/wp-content/uploads/2018/06/earth_5.jpg)]
 ---
 class: inverse
 ## About the internship program `r emo::ji('engineer')`
@@ -62,16 +65,12 @@ Supervisor: Dr.Paula Moraga
 .pull-right[
 <img src="images/paulamoraga.png" width="150px">
 ]
-
-
 ---
 class: inverse
 ## Background `r emo::ji('library')`
 
---
 Open and reliable data, analytical tools and collaborative research are crucial for solving global challenges and achieving sustainable development
 
---
 
 Spatial and spatio-temporal data are used in a wide range of fields including health and many other social and environmental disciplines to improve the evaluation and monitoring of goals both within and across countries.
 
@@ -98,7 +97,7 @@ knitr::include_graphics("images/1.PNG", dpi = NA)
 
 ---
 class: inverse
-## Tools used `r emo::ji('hammer_and_wrench')`
+## Softwares `r emo::ji('hammer_and_wrench')`
 
 - Simple R Markdown website
 
@@ -115,7 +114,7 @@ class: inverse
 
 ```{r tutorials,echo=FALSE}
 table <- read.csv(here::here("table.csv"))
-table %>% DT::datatable(options = list(pageLength = 12, dom = 't'),width = '120%', height = '70%')
+table %>% select(-Source) %>% DT::datatable(options = list(pageLength = 12, dom = 't'),width = '105%', height = '70%')
 ```
 
 ---
@@ -136,33 +135,31 @@ table %>% DT::datatable(options = list(pageLength = 12, dom = 't'),width = '120%
 
 ---
 class:inverse
-## Elevation `r emo::ji('mountain')`
+## Elevation `r emo::ji('tent')`
 
-Task at hand : To visualise a country's elevation data.
+**Task at hand** : To visualise a country's elevation data.
 
-Data :
+**Data** :
 
 - [USGS Elevation Point Query Service](https://ned.usgs.gov/epqs/)
 
 - [Amazon Web Services Terrain Tiles](https://registry.opendata.aws/terrain-tiles/)
 
-R-package
-
-- [elevatr](https://cran.r-project.org/web/packages/elevatr/index.html)
+**R-package** : [elevatr](https://cran.r-project.org/web/packages/elevatr/index.html)
 
 ---
 class:inverse
-# Elevation data of Switzerland administrative areas
+## Elevation data of Switzerland administrative areas
 
 .panelset[
-.panel[.panel-name[Map]
+.panel[.panel-name[Map `r emo::ji('map')`]
 
 ```{r elev, out.height="400px", eval=T}
 knitr::include_graphics("images/elevation.PNG", dpi = NA) 
 ```
 
 ]
-.panel[.panel-name[Code]
+.panel[.panel-name[Code `r emo::ji('coder')`]
 
 ```{r elevation, eval = F, echo = T}
 library(rnaturalearth)
@@ -190,26 +187,24 @@ ggplot() +
 
 ---
 class: inverse
-## Rainfall 
+## Rainfall `r emo::ji('rain')`
 
-Task at hand : To visualise a country's or the world rainfall data.
+**Task at hand** : To visualise a country's or the world rainfall data.
 
-Data : [NASA POWER](https://power.larc.nasa.gov/) - NASA Prediction of Worldwide Energy Resource
+**Data** : [NASA POWER](https://power.larc.nasa.gov/) - NASA Prediction of Worldwide Energy Resource
 
-R-package
-
-[nasapower](https://github.com/ropensci/nasapower)
+**R-package** : [nasapower](https://github.com/ropensci/nasapower)
 
 ---
 .panelset[
-.panel[.panel-name[Map]
+.panel[.panel-name[Map `r emo::ji('map')`]
 
 ```{r china-rain, out.height="400px", eval=T}
 knitr::include_graphics("images/china-rain.PNG", dpi = NA) 
 ```
 
 ]
-.panel[.panel-name[Code]
+.panel[.panel-name[Code `r emo::ji('coder')`]
 
 ```{r china-rain-code, eval = F, echo = T}
 #library("rnaturalearth")
@@ -252,14 +247,14 @@ ggplot() +
 ```
 
 ]
-.panel[.panel-name[Map]
+.panel[.panel-name[Map `r emo::ji('map')`]
 
 ```{r world-rain, out.height="400px", eval=T}
 knitr::include_graphics("images/world-rain.PNG", dpi = NA) 
 ```
 
 ]
-.panel[.panel-name[Code]
+.panel[.panel-name[Code `r emo::ji('coder')`]
 
 ```{r world-rain-code, eval = F, echo = T}
 library("rnaturalearth")
@@ -298,26 +293,24 @@ ggplot() +
 
 ---
 class: inverse
-## Humidity
+## Humidity `r emo::ji('sun')`
 
-Task at hand : To visualise a country's or the world humidity data.
+**Task at hand** : To visualise a country's or the world humidity data.
 
-Data : [NASA POWER](https://power.larc.nasa.gov/) - NASA Prediction of Worldwide Energy Resource
+**Data** : [NASA POWER](https://power.larc.nasa.gov/) - NASA Prediction of Worldwide Energy Resource
 
-R-package
-
-[nasapower](https://github.com/ropensci/nasapower)
+**R-package** : [nasapower](https://github.com/ropensci/nasapower)
 
 ---
 .panelset[
-.panel[.panel-name[Map]
+.panel[.panel-name[Map `r emo::ji('map')`]
 
 ```{r china-humid, out.height="400px", eval=T}
 knitr::include_graphics("images/oz-humid.PNG", dpi = NA) 
 ```
 
 ]
-.panel[.panel-name[Code]
+.panel[.panel-name[Code `r emo::ji('coder')`]
 
 ```{r oz-humid-code, eval = F, echo = T}
 library("rnaturalearth")
@@ -345,14 +338,14 @@ ggplot() +
 ```
 
 ]
-.panel[.panel-name[Map]
+.panel[.panel-name[Map `r emo::ji('map')`]
 
 ```{r world-humid, out.height="400px", eval=T}
 knitr::include_graphics("images/world-humid.PNG", dpi = NA) 
 ```
 
 ]
-.panel[.panel-name[Code]
+.panel[.panel-name[Code `r emo::ji('coder')`]
 
 ```{r world-humid-code, eval = F, echo = T}
 #getting the shapefiles for the world 
@@ -389,22 +382,20 @@ ggplot() +
 
 ---
 class: inverse
-## Demographic and Health Survey[DHS]
+## Demographic and Health Survey[DHS] `r emo::ji('health')`
 
-Task at hand : To give users the ability to access and analyse the demographic and health survey data of the country or world.
+**Task at hand** : To give users the ability to access and analyse the demographic and health survey data of the country or world.
 
-Data : [DHS API](https://api.dhsprogram.com/#/index.html)
+**Data** : [DHS API](https://api.dhsprogram.com/#/index.html)
 
-R-package
-
-[rdhs](https://www.rdocumentation.org/packages/rdhs/versions/0.7.2)
+**R-package** : [rdhs](https://www.rdocumentation.org/packages/rdhs/versions/0.7.2)
 
 ---
 class: inverse
 ## Getting the data and its analysis
 
 .panelset[
-.panel[.panel-name[Guide]
+.panel[.panel-name[Guide `r emo::ji('document')`]
 
 ### Some guidelines to access DHS data
 
@@ -414,7 +405,7 @@ class: inverse
 
 - If one wishes to just use the `rdhs` package to view it's working, then there are model data sets which are not the actual numbers, that can be used without any approval.
 ]
-.panel[.panel-name[Functions]
+.panel[.panel-name[Functions `r emo::ji('save')`]
 
 ### Functions:
 
@@ -427,7 +418,7 @@ class: inverse
 
 ]
 
-.panel[.panel-name[Authentication]
+.panel[.panel-name[Authentication `r emo::ji('password')`]
 
 The following code is used to set your DHS website credentials for retrieval of data approved.
 
@@ -440,58 +431,31 @@ config <- set_rdhs_config(email = "abc.gmail.com",
 
 ```
 
-]
-
-.panel[.panel-name[Graph]
-
-```{r dhs-facet, out.height="400px", eval=T}
-knitr::include_graphics("images/dhs.PNG", dpi = NA) 
-```
-
-]
-.panel[.panel-name[Code]
-
-```{r facet, eval = F, echo = T}
-#regions we are interested in
-country <- c("Ghana","Ethiopia","Tanzania","Zambia","Rwanda","Mali") 
-
-ggplot(resp[resp$CountryName %in% country,], 
-       aes(x = SurveyYear, 
-           y = Value, 
-           color = CountryName)) + 
-  geom_point()+
-  geom_smooth(method = "lm") +
-  labs(y = "Households with at least one ins ecticide treated net (ITN)", color = "Country")+
-  facet_wrap(~CountryName)
-```
-
 ]]
 
 ---
 class: inverse
-### Malaria
+### Malaria `r emo::ji('health')`
 
-Task at hand :  To download, visualise and manipulate global malaria data hosted by the Malaria Atlas Project.
+**Task at hand** :  To download, visualise and manipulate global malaria data hosted by the Malaria Atlas Project.
 
-Data : [Malaria Atlas Project](https://malariaatlas.org/explorer/#/)
+**Data** : [Malaria Atlas Project](https://malariaatlas.org/explorer/#/)
 
-R-package
-
-- [malariaAtlas](https://cran.r-project.org/web/packages/malariaAtlas/index.html)
+**R-package** : [malariaAtlas](https://cran.r-project.org/web/packages/malariaAtlas/index.html)
 
 ---
 class:inverse
-# Malaria Data Visualisation
+# Malaria Data Visualisation `r emo::ji('upward')`
 
 .panelset[
-.panel[.panel-name[Map]
+.panel[.panel-name[Map `r emo::ji('map')`]
 
 ```{r mal, out.height="400px", eval=T}
 knitr::include_graphics("images/malaria.PNG", dpi = NA) 
 ```
 
 ]
-.panel[.panel-name[Code]
+.panel[.panel-name[Code `r emo::ji('coder')`]
 
 ```{r pr-malaria, eval = F, echo = T}
 ZM_PR_data  <- getPR(country = "Zimbabwe", species = "BOTH") 
@@ -500,14 +464,14 @@ autoplot(ZM_PR_data)
 
 ]
 
-.panel[.panel-name[Map]
+.panel[.panel-name[Map `r emo::ji('map')`]
 
 ```{r mal-vec, out.height="400px", eval=T}
 knitr::include_graphics("images/vector.PNG", dpi = NA) 
 ```
 
 ]
-.panel[.panel-name[Code]
+.panel[.panel-name[Code `r emo::ji('coder')`]
 
 ```{r vec-malaria, eval = F, echo = T}
 IN_VEC_data <- getVecOcc(country = "India", species = "ALL") 
@@ -516,14 +480,14 @@ autoplot(IN_VEC_data)
 
 ]
 
-.panel[.panel-name[Map]
+.panel[.panel-name[Map `r emo::ji('map')`]
 
 ```{r mal-ras, out.height="400px", eval=T}
 knitr::include_graphics("images/raster-mal.PNG", dpi = NA) 
 ```
 
 ]
-.panel[.panel-name[Code]
+.panel[.panel-name[Code`r emo::ji('coder')`]
 
 ```{r raster-mal, eval = F, echo = T}
 ZM_shp <- getShp(country = "Zimbabwe", admin_level = "admin0")
@@ -534,3 +498,21 @@ autoplot(ZMB_Pf, shp_df = ZMB_shp_data)
 ```
 ]
 ]
+
+---
+class: inverse
+## What do we have planned next?
+
+- We are due to give a elevator pitch at the useR! conference this July. 
+- Convert tutorials into interactive learnr tutorials for the [afrimapr](https://afrimapr.github.io/afrimapr.website/) project.
+- We are also writing a paper on rspatialdata. 
+
+---
+class: inverse,middle
+background-image: url("images/spatial.jpg")
+background-size: cover
+
+![](https://media.giphy.com/media/fv4tD2kW1PSgg/giphy.gif)
+
+
+Image credit: [Aberdeen](https://on.abdn.ac.uk/courses/introduction-to-gis-tools-techniques-cartography-and-geovisualisation/)
